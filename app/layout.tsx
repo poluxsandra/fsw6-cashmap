@@ -1,22 +1,18 @@
-import type { Metadata } from "next";
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: "",
-  description: "",
-};
+  title: '',
+  description: '',
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
-    <html lang="">
-      <body
-        className={`antialiased`}
-      >
-        {children}
-      </body>
+    <html lang="pt">
+      <body className="antialiased">{children}</body>o
     </html>
-  );
+  )
 }
