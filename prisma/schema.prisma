@@ -1,0 +1,68 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model CashmapUser {
+    id           String                @id @default(uuid())
+    name         String
+    nickname     String                @unique
+    email        String                @unique
+    subscription String
+    transactions CashmapTransactions[]
+
+    @@map("cashmap_user")
+}
+
+model CashmapTransactions {
+    id       String                 @id @default(uuid())
+    userId   String                 @unique
+    title    String
+    cash     Decimal                @db.Decimal(10, 2)
+    category CashmapCategoryType
+    type     CashmapTransactionType
+    payment  CashmapPaymentType
+    date     DateTime
+    createAt DateTime               @default(now())
+    updateAt DateTime               @updatedAt
+    user     CashmapUser            @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@map("cashmap_transactions")
+}
+
+enum CashmapCategoryType {
+    HOUSING
+    TRANSPORTATION
+    FOOD
+    ENTERTAINMENT
+    HEALTH
+    UTILITY
+    SALARY
+    EDUCATION
+    OTHER
+
+    @@map("cashmap_categoryType")
+}
+
+enum CashmapTransactionType {
+    EXPENSIVE
+    REVENUE
+    INVESTIMENT
+
+    @@map("cashmap_transactionType")
+}
+
+enum CashmapPaymentType {
+    PIX
+    DEBITCARD
+    CREDITCARD
+    BANKSLIP
+    BANKTRANSFER
+    OTHER
+
+    @@map("cashmap_paymentType")
+}
